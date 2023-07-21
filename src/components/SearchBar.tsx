@@ -1,7 +1,7 @@
 import Search from 'antd/es/input/Search';
 
-function SearchBar() {
+const SearchBar: React.FC = () => {
   return <Search placeholder="Поиск" size="large" />;
-}
+};
 
 export default SearchBar;
