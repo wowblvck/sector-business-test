@@ -8,7 +8,7 @@ const router = createBrowserRouter([
     Component: RootLayout,
     children: [
       {
-        element: <Navigate replace to="/posts" />,
+        element: <Navigate to="/posts" replace />,
         index: true,
       },
       {
@@ -19,8 +19,8 @@ const router = createBrowserRouter([
   },
 ]);
 
-function App() {
+const App: React.FC = () => {
   return <RouterProvider router={router} />;
-}
+};
 
 export default App;
