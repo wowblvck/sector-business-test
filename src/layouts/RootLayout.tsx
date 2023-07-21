@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 const { useBreakpoint } = Grid;
 
-function RootLayout() {
+const RootLayout: React.FC = () => {
   const { xs } = useBreakpoint();
 
   return (
@@ -21,6 +21,6 @@ function RootLayout() {
       </Content>
     </Layout>
   );
-}
+};
 
 export default RootLayout;

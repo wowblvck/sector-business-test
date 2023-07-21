@@ -25,12 +25,15 @@
     /* Alias Paths */
     "baseUrl": ".",
     "paths": {
+      "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
       "@pages/*": ["src/pages/*"],
       "@api/*": ["src/api/*"],
       "@interfaces/*": ["src/interfaces/*"],
-      "@store/*": ["src/store/*"]
+      "@store/*": ["src/store/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@constants/*": ["src/constants/*"]
     }
   },
   "include": ["src", "vite.config.ts"],
