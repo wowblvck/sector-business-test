@@ -13,7 +13,7 @@ const PostsPage: React.FC = () => {
   const paginatedData = data?.slice(firstIndex, lastIndex);
 
   return (
-    <Space direction="vertical" size="large" style={{ width: '1077px' }}>
+    <Space direction="vertical" style={{ width: '1077px' }} size="large">
       <Row>
         <Col md={12} sm={24} span={12} xs={24}>
           <SearchBar />
@@ -21,19 +21,21 @@ const PostsPage: React.FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-            <PostsList posts={paginatedData || []} loading={isLoading} />
-            {!isLoading && !!paginatedData?.length && (
-              <Paginator
-                totalItems={data!.length}
-                pageSize={pageSize}
-                currentPage={pageNumber}
-                onChangePage={changePage}
-              />
-            )}
-          </Space>
+          <PostsList posts={paginatedData || []} loading={isLoading} />
         </Col>
       </Row>
+      {!isLoading && !!paginatedData?.length && (
+        <Row justify="center">
+          <Col>
+            <Paginator
+              totalItems={data!.length}
+              pageSize={pageSize}
+              currentPage={pageNumber}
+              onChangePage={changePage}
+            />
+          </Col>
+        </Row>
+      )}
     </Space>
   );
 };
