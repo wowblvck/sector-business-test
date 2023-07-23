@@ -4,11 +4,16 @@ import SearchBar from '@components/SearchBar';
 import { Col, Row, Space } from 'antd';
 import usePagination from '@hooks/usePagination';
 import Paginator from '@components/Paginator';
+import { useAppSelector } from '@/store/hooks';
 
 const PostsPage: React.FC = () => {
-  const { data, isLoading } = useGetPostsListQuery();
+  const searchValue = useAppSelector((state) => state.postsReducer.searchValue);
 
-  const { pageNumber, pageSize, firstIndex, lastIndex, changePage } = usePagination({});
+  const { data, isLoading } = useGetPostsListQuery(searchValue);
+
+  const { pageNumber, pageSize, firstIndex, lastIndex, changePage } = usePagination({
+    dataLength: data?.length || 0,
+  });
 
   const paginatedData = data?.slice(firstIndex, lastIndex);
 

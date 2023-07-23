@@ -12,6 +12,7 @@ type UsePaginationReturn = {
 };
 
 type UsePaginationProps = {
+  dataLength: number;
   defaultPageNumber?: number;
   defaultLimit?: number;
 };
@@ -19,6 +20,7 @@ type UsePaginationProps = {
 type UsePagination = (arg: UsePaginationProps) => UsePaginationReturn;
 
 const usePagination: UsePagination = ({
+  dataLength,
   defaultLimit = DEFAULT_LIMIT_PER_PAGE,
   defaultPageNumber = DEFAULT_PAGE_NUMBER,
 }) => {
@@ -29,16 +31,20 @@ const usePagination: UsePagination = ({
 
   const [pageNumber, setPageNumber] = useState<number>(Number(searchParams.get('page')));
   const [pageSize] = useState<number>(Number(searchParams.get('limit')));
+  const totalPages = Math.ceil(dataLength / pageSize);
 
   const lastIndex = pageNumber * pageSize;
   const firstIndex = lastIndex - pageSize;
 
   useEffect(() => {
+    if (dataLength !== 0 && pageNumber > totalPages) {
+      setPageNumber(1);
+    }
     setSearchParam({
       page: pageNumber.toString(),
       limit: pageSize.toString(),
     });
-  }, [pageNumber, pageSize]);
+  }, [pageNumber, pageSize, totalPages]);
 
   const onChange = (page: number) => {
     setPageNumber(page);
