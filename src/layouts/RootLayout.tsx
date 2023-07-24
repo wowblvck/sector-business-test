@@ -16,6 +16,7 @@ const RootLayout: React.FC = () => {
           minHeight: '100vh',
           padding: `23px ${xs ? '20px' : '77px'}`,
         }}
+        data-testid="main-content"
       >
         <Outlet />
       </Content>

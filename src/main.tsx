@@ -4,9 +4,11 @@ import { Provider } from 'react-redux';
 
 import 'normalize.css';
 
-import { store } from '@store/store.ts';
+import { setupStore } from '@store/store.ts';
 
 import App from './App.tsx';
+
+const store = setupStore();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
