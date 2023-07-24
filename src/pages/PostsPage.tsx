@@ -37,7 +37,12 @@ const PostsPage: React.FC = () => {
   }, [pageNumber, pageSize]);
 
   return (
-    <Space direction="vertical" style={{ width: '1077px' }} size="large">
+    <Space
+      direction="vertical"
+      style={{ width: '1077px' }}
+      size="large"
+      data-testid="post-page-content"
+    >
       <Row>
         <Col md={12} sm={24} span={12} xs={24}>
           <SearchBar />
@@ -49,7 +54,7 @@ const PostsPage: React.FC = () => {
         </Col>
       </Row>
       {!isLoading && !!slicedData?.length && (
-        <Row justify="center">
+        <Row justify="center" data-testid="paginator">
           <Col>
             <Paginator
               totalItems={posts!.length}

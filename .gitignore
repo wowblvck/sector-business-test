@@ -23,8 +23,11 @@ dist-ssr
 *.sln
 *.sw?
 
-#Env
+# Env
 .env
 .env.local
 .env.development
 .env.production
+
+# Tests 
+coverage
