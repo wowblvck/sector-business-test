@@ -1,60 +1,45 @@
+import { DEFAULT_PAGE_NUMBER } from '@/constants/pagination';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
-import { DEFAULT_PAGE_NUMBER, DEFAULT_LIMIT_PER_PAGE } from '@constants/pagination';
-
-type UsePaginationReturn = {
+type UsePaginationReturn<T> = {
+  slicedData: T[];
   pageNumber: number;
   pageSize: number;
-  firstIndex: number;
-  lastIndex: number;
   changePage: (page: number) => void;
 };
 
-type UsePaginationProps = {
-  dataLength: number;
-  defaultPageNumber?: number;
-  defaultLimit?: number;
+type UsePaginationProps<T> = {
+  data: T[];
+  pageParams: number;
+  pageSizeParams: number;
 };
 
-type UsePagination = (arg: UsePaginationProps) => UsePaginationReturn;
+type UsePagination = <T>(arg: UsePaginationProps<T>) => UsePaginationReturn<T>;
 
-const usePagination: UsePagination = ({
-  dataLength,
-  defaultLimit = DEFAULT_LIMIT_PER_PAGE,
-  defaultPageNumber = DEFAULT_PAGE_NUMBER,
-}) => {
-  const [searchParams, setSearchParam] = useSearchParams({
-    page: defaultPageNumber.toString(),
-    limit: defaultLimit.toString(),
-  });
-
-  const [pageNumber, setPageNumber] = useState<number>(Number(searchParams.get('page')));
-  const [pageSize] = useState<number>(Number(searchParams.get('limit')));
-  const totalPages = Math.ceil(dataLength / pageSize);
+const usePagination: UsePagination = ({ data, pageParams, pageSizeParams }) => {
+  const [pageNumber, setPageNumber] = useState<number>(pageParams);
+  const [pageSize] = useState<number>(pageSizeParams);
+  const totalPages = Math.ceil(data.length / pageSize);
 
   const lastIndex = pageNumber * pageSize;
   const firstIndex = lastIndex - pageSize;
 
+  const slicedData = data.slice(firstIndex, lastIndex);
+
   useEffect(() => {
-    if (dataLength !== 0 && pageNumber > totalPages) {
-      setPageNumber(1);
+    if (totalPages !== 0 && pageNumber > totalPages) {
+      setPageNumber(Number(DEFAULT_PAGE_NUMBER));
     }
-    setSearchParam({
-      page: pageNumber.toString(),
-      limit: pageSize.toString(),
-    });
-  }, [pageNumber, pageSize, totalPages]);
+  }, [totalPages]);
 
   const onChange = (page: number) => {
     setPageNumber(page);
   };
 
   return {
+    slicedData,
     pageNumber,
     pageSize,
-    firstIndex,
-    lastIndex,
     changePage: onChange,
   };
 };
