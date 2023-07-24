@@ -1,21 +1,40 @@
+import { Col, Row, Space } from 'antd';
+import { useSearchParams } from 'react-router-dom';
 import { useGetPostsListQuery } from '@api/endpoints/postsApi';
 import PostsList from '@components/PostsList';
 import SearchBar from '@components/SearchBar';
-import { Col, Row, Space } from 'antd';
-import usePagination from '@hooks/usePagination';
 import Paginator from '@components/Paginator';
-import { useAppSelector } from '@/store/hooks';
+import usePagination from '@hooks/usePagination';
+import { useAppSelector } from '@store/hooks';
+import Posts from '@interfaces/Posts.interface';
+import { useEffect } from 'react';
+import { DEFAULT_LIMIT_PER_PAGE, DEFAULT_PAGE_NUMBER } from '@/constants/pagination';
 
 const PostsPage: React.FC = () => {
   const searchValue = useAppSelector((state) => state.postsReducer.searchValue);
 
-  const { data, isLoading } = useGetPostsListQuery(searchValue);
+  const { data: posts, isLoading } = useGetPostsListQuery(searchValue);
 
-  const { pageNumber, pageSize, firstIndex, lastIndex, changePage } = usePagination({
-    dataLength: data?.length || 0,
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: DEFAULT_PAGE_NUMBER,
+    limit: DEFAULT_LIMIT_PER_PAGE,
   });
 
-  const paginatedData = data?.slice(firstIndex, lastIndex);
+  const page = Number(searchParams.get('page'));
+  const limit = Number(searchParams.get('limit'));
+
+  const { pageNumber, pageSize, changePage, slicedData } = usePagination<Posts>({
+    data: posts || [],
+    pageParams: page,
+    pageSizeParams: limit,
+  });
+
+  useEffect(() => {
+    setSearchParams({
+      page: pageNumber.toString(),
+      limit: pageSize.toString(),
+    });
+  }, [pageNumber, pageSize]);
 
   return (
     <Space direction="vertical" style={{ width: '1077px' }} size="large">
@@ -26,14 +45,14 @@ const PostsPage: React.FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          <PostsList posts={paginatedData || []} loading={isLoading} />
+          <PostsList posts={slicedData || []} loading={isLoading} />
         </Col>
       </Row>
-      {!isLoading && !!paginatedData?.length && (
+      {!isLoading && !!slicedData?.length && (
         <Row justify="center">
           <Col>
             <Paginator
-              totalItems={data!.length}
+              totalItems={posts!.length}
               pageSize={pageSize}
               currentPage={pageNumber}
               onChangePage={changePage}
