@@ -4,10 +4,14 @@ import matchers from '@testing-library/jest-dom/matchers';
 import { cleanup } from '@testing-library/react';
 import { configure } from '@testing-library/react';
 import handlers from '@mocks/handlers';
+import { setupStore } from '@store/store';
 
 import { setupServer } from 'msw/node';
+import { api } from '@api/api';
 
 const { getComputedStyle } = window;
+
+const store = setupStore();
 
 configure({
   computedStyleSupportsPseudoElements: true,
@@ -37,6 +41,7 @@ afterAll(() => mswServer.close());
 
 afterEach(() => {
   cleanup();
+  store.dispatch(api.util.resetApiState());
   mswServer.resetHandlers();
 });
 
