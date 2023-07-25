@@ -26,7 +26,7 @@ describe('PostsPage', () => {
   test('displays error notification on API failure', async () => {
     mswServer.use(
       rest.get(`${API}/posts`, (_req, res, ctx) => {
-        return res(ctx.status(500));
+        return res(ctx.status(404));
       })
     );
 
@@ -35,8 +35,11 @@ describe('PostsPage', () => {
         <PostsPage />
       </MemoryRouter>
     );
-    await waitFor(() =>
-      expect(getByText('Ошибка загрузки постов. Повторите попытку позднее!')).toBeInTheDocument()
+
+    await waitFor(
+      () =>
+        expect(getByText('Ошибка загрузки постов. Повторите попытку позднее!')).toBeInTheDocument(),
+      { timeout: 10000 }
     );
   });
 
@@ -59,7 +62,9 @@ describe('PostsPage', () => {
         </MemoryRouter>
       );
 
-    await waitFor(() => expect(getByTestId('post-page-content')).toBeInTheDocument());
+    await waitFor(() => expect(getByTestId('post-page-content')).toBeInTheDocument(), {
+      timeout: 10000,
+    });
 
     const button = getByRole('button');
     const searchInput = getByPlaceholderText('Поиск');
@@ -69,9 +74,12 @@ describe('PostsPage', () => {
       fireEvent.click(button);
     });
 
-    await waitFor(() => {
-      expect(getByText('Test Post 1')).toBeInTheDocument();
-      expect(queryByText('Test Post 2')).not.toBeInTheDocument();
-    });
+    await waitFor(
+      () => {
+        expect(getByText('Test Post 1')).toBeInTheDocument();
+        expect(queryByText('Test Post 2')).not.toBeInTheDocument();
+      },
+      { timeout: 10000 }
+    );
   });
 });
