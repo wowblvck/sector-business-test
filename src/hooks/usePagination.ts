@@ -1,46 +1,30 @@
-import { DEFAULT_PAGE_NUMBER } from '@constants/pagination';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-type UsePaginationReturn<T> = {
-  slicedData: T[];
+type UsePaginationReturn = {
   pageNumber: number;
   pageSize: number;
   changePage: (page: number) => void;
 };
 
-type UsePaginationProps<T> = {
-  data: T[];
-  pageParams: number;
-  pageSizeParams: number;
+type UsePaginationProps = {
+  defaultPageNumber: number;
+  defaultPageSize: number;
 };
 
-type UsePagination = <T>(arg: UsePaginationProps<T>) => UsePaginationReturn<T>;
+type UsePagination = (arg: UsePaginationProps) => UsePaginationReturn;
 
-const usePagination: UsePagination = ({ data, pageParams, pageSizeParams }) => {
-  const [pageNumber, setPageNumber] = useState<number>(pageParams);
-  const [pageSize] = useState<number>(pageSizeParams);
-  const totalPages = Math.ceil(data.length / pageSize);
+const usePagination: UsePagination = ({ defaultPageNumber, defaultPageSize }) => {
+  const [pageNumber, setPageNumber] = useState<number>(defaultPageNumber);
+  const [pageSize] = useState<number>(defaultPageSize);
 
-  const lastIndex = pageNumber * pageSize;
-  const firstIndex = lastIndex - pageSize;
-
-  const slicedData = data.slice(firstIndex, lastIndex);
-
-  useEffect(() => {
-    if (totalPages !== 0 && pageNumber > totalPages) {
-      setPageNumber(Number(DEFAULT_PAGE_NUMBER));
-    }
-  }, [totalPages]);
-
-  const onChange = (page: number) => {
+  const onChangePage = (page: number) => {
     setPageNumber(page);
   };
 
   return {
-    slicedData,
     pageNumber,
     pageSize,
-    changePage: onChange,
+    changePage: onChangePage,
   };
 };
 

@@ -25,7 +25,6 @@
     /* Alias Paths */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
       "@pages/*": ["src/pages/*"],
@@ -36,7 +35,9 @@
       "@constants/*": ["src/constants/*"],
       "@reducers/*": ["src/reducers/*"],
       "@utils/*": ["src/utils/*"],
-      "@mocks/*": ["src/mocks/*"]
+      "@mocks/*": ["src/mocks/*"],
+      "@tests/*": ["src/tests/*"],
+      "@/*": ["src/*"]
     }
   },
   "include": ["src", "vite.config.ts"],
