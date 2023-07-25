@@ -1,4 +1,4 @@
-import { Col, Row, Space } from 'antd';
+import { Col, Row, Space, notification } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import { useGetPostsListQuery } from '@api/endpoints/postsApi';
 import PostsList from '@components/PostsList';
@@ -13,7 +13,16 @@ import { DEFAULT_LIMIT_PER_PAGE, DEFAULT_PAGE_NUMBER } from '@constants/paginati
 const PostsPage: React.FC = () => {
   const searchValue = useAppSelector((state) => state.postsReducer.searchValue);
 
-  const { data: posts, isLoading } = useGetPostsListQuery(searchValue);
+  const { data: posts, isLoading, isError } = useGetPostsListQuery(searchValue);
+
+  useEffect(() => {
+    if (isError)
+      notification.error({
+        message: 'Fail to load posts data. Try again!',
+        placement: 'bottomRight',
+        duration: 3,
+      });
+  }, [isError]);
 
   const [searchParams, setSearchParams] = useSearchParams({
     page: DEFAULT_PAGE_NUMBER,
