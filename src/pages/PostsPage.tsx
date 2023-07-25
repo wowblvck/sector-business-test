@@ -8,7 +8,7 @@ import usePagination from '@hooks/usePagination';
 import { useAppSelector } from '@store/hooks';
 import Posts from '@interfaces/Posts.interface';
 import { useEffect } from 'react';
-import { DEFAULT_LIMIT_PER_PAGE, DEFAULT_PAGE_NUMBER } from '@/constants/pagination';
+import { DEFAULT_LIMIT_PER_PAGE, DEFAULT_PAGE_NUMBER } from '@constants/pagination';
 
 const PostsPage: React.FC = () => {
   const searchValue = useAppSelector((state) => state.postsReducer.searchValue);

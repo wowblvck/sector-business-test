@@ -6,8 +6,8 @@ import type { PreloadedState } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 
 import type { AppStore, RootState } from '@store/store';
-import postsReducer from '@/reducers/posts.reducer';
-import { api } from '@/api/api';
+import postsReducer from '@reducers/posts.reducer';
+import { api } from '@api/api';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>;

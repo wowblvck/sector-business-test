@@ -1,5 +1,5 @@
 import PostsPage from '@pages/PostsPage';
-import { renderWithProviders } from '@/utils/test-utils';
+import { renderWithProviders } from '@utils/test-utils';
 import { MemoryRouter } from 'react-router-dom';
 import { waitFor } from '@testing-library/react';
 

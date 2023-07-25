@@ -1,6 +1,6 @@
 import { PreloadedState, combineReducers, configureStore } from '@reduxjs/toolkit';
 import { api } from '@api/api';
-import postsReducer from '@/reducers/posts.reducer';
+import postsReducer from '@reducers/posts.reducer';
 
 const rootReducer = combineReducers({
   postsReducer: postsReducer,

@@ -1,4 +1,4 @@
-import { DEFAULT_PAGE_NUMBER } from '@/constants/pagination';
+import { DEFAULT_PAGE_NUMBER } from '@constants/pagination';
 import { useEffect, useState } from 'react';
 
 type UsePaginationReturn<T> = {
