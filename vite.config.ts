@@ -63,9 +63,6 @@ export default defineConfig({
           if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
             return 'react';
           }
-          if (id.includes('antd')) {
-            return 'antd';
-          }
           return null;
         },
       },

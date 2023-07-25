@@ -36,6 +36,7 @@ const Paginator: React.FC<PaginatorProps> = ({
       pageSize={pageSize}
       current={currentPage}
       onChange={onChange}
+      style={{ textAlign: 'center' }}
     />
   );
 };
