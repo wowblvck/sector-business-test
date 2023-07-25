@@ -34,7 +34,6 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src'),
       '@components': resolve(__dirname, './src/components'),
       '@layouts': resolve(__dirname, './src/layouts'),
       '@pages': resolve(__dirname, './src/pages'),
@@ -46,6 +45,8 @@ export default defineConfig({
       '@reducers': resolve(__dirname, './src/reducers'),
       '@utils': resolve(__dirname, './src/utils'),
       '@mocks': resolve(__dirname, './src/mocks'),
+      '@tests': resolve(__dirname, './src/tests'),
+      '@': resolve(__dirname, './src'),
     },
   },
   build: {

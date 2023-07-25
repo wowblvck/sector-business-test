@@ -6,37 +6,41 @@ import SearchBar from '@components/SearchBar';
 import Paginator from '@components/Paginator';
 import usePagination from '@hooks/usePagination';
 import { useAppSelector } from '@store/hooks';
-import Posts from '@interfaces/Posts.interface';
 import { useEffect } from 'react';
 import { DEFAULT_LIMIT_PER_PAGE, DEFAULT_PAGE_NUMBER } from '@constants/pagination';
 
 const PostsPage: React.FC = () => {
-  const searchValue = useAppSelector((state) => state.postsReducer.searchValue);
-
-  const { data: posts, isLoading, isError } = useGetPostsListQuery(searchValue);
-
-  useEffect(() => {
-    if (isError)
-      notification.error({
-        message: 'Fail to load posts data. Try again!',
-        placement: 'bottomRight',
-        duration: 3,
-      });
-  }, [isError]);
-
   const [searchParams, setSearchParams] = useSearchParams({
     page: DEFAULT_PAGE_NUMBER,
     limit: DEFAULT_LIMIT_PER_PAGE,
   });
 
-  const page = Number(searchParams.get('page'));
-  const limit = Number(searchParams.get('limit'));
-
-  const { pageNumber, pageSize, changePage, slicedData } = usePagination<Posts>({
-    data: posts || [],
-    pageParams: page,
-    pageSizeParams: limit,
+  const { pageNumber, pageSize, changePage } = usePagination({
+    defaultPageNumber: Number(searchParams.get('page')),
+    defaultPageSize: Number(searchParams.get('limit')),
   });
+
+  const searchValue = useAppSelector((state) => state.postsReducer.searchValue);
+
+  const { isLoading, isError, data } = useGetPostsListQuery({ page: pageNumber, limit: pageSize });
+
+  const filteredPosts =
+    !isLoading && data
+      ? data?.posts.filter(
+          (post) =>
+            post.body.toLowerCase().includes(searchValue.toLowerCase()) ||
+            post.title.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      : [];
+
+  useEffect(() => {
+    if (isError)
+      notification.error({
+        message: 'Ошибка загрузки постов. Повторите попытку позднее!',
+        placement: 'bottomRight',
+        duration: 3,
+      });
+  }, [isError]);
 
   useEffect(() => {
     setSearchParams({
@@ -59,16 +63,16 @@ const PostsPage: React.FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          <PostsList posts={slicedData || []} loading={isLoading} />
+          <PostsList posts={filteredPosts} loading={isLoading} />
         </Col>
       </Row>
-      {!isLoading && !!slicedData?.length && (
+      {!isLoading && data && !!data.posts.length && (
         <Row justify="center" data-testid="paginator">
           <Col>
             <Paginator
-              totalItems={posts!.length}
-              pageSize={pageSize}
-              currentPage={pageNumber}
+              totalItems={data.total}
+              currentPage={data.page}
+              pageSize={data.per_page}
               onChangePage={changePage}
             />
           </Col>
