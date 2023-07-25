@@ -1,9 +1,9 @@
 import { screen } from '@testing-library/react';
 import { fireEvent } from '@testing-library/react';
 import SearchBar from '@components/SearchBar';
-import { setSearchValue } from '@/reducers/posts.reducer';
-import { renderWithProviders } from '@/utils/test-utils';
-import { setupStore } from '@/store/store';
+import { setSearchValue } from '@reducers/posts.reducer';
+import { renderWithProviders } from '@utils/test-utils';
+import { setupStore } from '@store/store';
 
 describe('Search Bar render', () => {
   test('updates the search value when the form is submitted', () => {

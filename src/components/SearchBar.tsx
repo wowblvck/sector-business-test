@@ -1,5 +1,5 @@
-import { setSearchValue } from '@/reducers/posts.reducer';
-import { useAppDispatch } from '@/store/hooks';
+import { setSearchValue } from '@reducers/posts.reducer';
+import { useAppDispatch } from '@store/hooks';
 import Search from 'antd/es/input/Search';
 
 const SearchBar: React.FC = () => {

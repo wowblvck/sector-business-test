@@ -1,6 +1,6 @@
+import { vi } from 'vitest';
 import { render } from '@testing-library/react';
 import RootLayout from '@layouts/RootLayout';
-import { vi } from 'vitest';
 
 describe('RootLayout', () => {
   test('render the layout component', () => {

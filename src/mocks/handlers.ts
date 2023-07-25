@@ -1,8 +1,8 @@
-import { API } from '@/api/api';
+import { API } from '@api/api';
 import { rest } from 'msw';
 
 const handlers = [
-  rest.get(`${API}/posts`, (req, res, ctx) => {
+  rest.get(`${API}/posts`, (_req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json([

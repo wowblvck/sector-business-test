@@ -33,7 +33,10 @@
       "@interfaces/*": ["src/interfaces/*"],
       "@store/*": ["src/store/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@constants/*": ["src/constants/*"]
+      "@constants/*": ["src/constants/*"],
+      "@reducers/*": ["src/reducers/*"],
+      "@utils/*": ["src/utils/*"],
+      "@mocks/*": ["src/mocks/*"]
     }
   },
   "include": ["src", "vite.config.ts"],
