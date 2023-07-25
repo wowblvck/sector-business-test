@@ -1,8 +1,8 @@
 interface Posts {
-  userId: number;
+  body: string;
   id: number;
   title: string;
-  body: string;
+  userId: number;
 }
 
 export default Posts;

@@ -8,7 +8,7 @@ const SearchBar: React.FC = () => {
     dispatch(setSearchValue(value));
   };
 
-  return <Search placeholder="Поиск" size="large" onSearch={onSearch} />;
+  return <Search onSearch={onSearch} placeholder="Поиск" size="large" />;
 };
 
 export default SearchBar;

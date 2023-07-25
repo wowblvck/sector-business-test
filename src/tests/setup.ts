@@ -1,13 +1,12 @@
-import { vi } from 'vitest';
-import '@testing-library/jest-dom';
-import matchers from '@testing-library/jest-dom/matchers';
-import { cleanup } from '@testing-library/react';
-import { configure } from '@testing-library/react';
+import { api } from '@api/api';
 import handlers from '@mocks/handlers';
 import { setupStore } from '@store/store';
-
+import '@testing-library/jest-dom';
+import matchers from '@testing-library/jest-dom/matchers';
+import { configure } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 import { setupServer } from 'msw/node';
-import { api } from '@api/api';
+import { vi } from 'vitest';
 
 const { getComputedStyle } = window;
 
@@ -23,17 +22,17 @@ beforeAll(() => {
   window.getComputedStyle = (elt) => getComputedStyle(elt);
   mswServer.listen();
   Object.defineProperty(window, 'matchMedia', {
-    writable: true,
     value: vi.fn().mockImplementation((query: string) => ({
+      addEventListener: vi.fn(),
+      addListener: vi.fn(),
+      dispatchEvent: vi.fn(),
       matches: false,
       media: query,
       onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
+      removeListener: vi.fn(),
     })),
+    writable: true,
   });
 });
 

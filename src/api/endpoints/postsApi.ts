@@ -1,23 +1,23 @@
-import Posts from '@interfaces/Posts.interface';
 import { api } from '@api/api';
+import Posts from '@interfaces/Posts.interface';
 
 interface ListResponse<T> {
   page: number;
   per_page: number;
+  posts: T[];
   total: number;
   total_pages: number;
-  posts: T[];
 }
 
 interface ListRequest {
-  page: number;
   limit: number;
+  page: number;
 }
 
 const postsApi = api.injectEndpoints({
   endpoints: (build) => ({
     getPostsList: build.query<ListResponse<Posts>, ListRequest>({
-      query: ({ page, limit }) => `/posts?&_page=${page}&_limit=${limit}`,
+      query: ({ limit, page }) => `/posts?&_page=${page}&_limit=${limit}`,
       transformResponse(response: Posts[], meta, arg) {
         const { limit, page } = arg;
         const totalCountHeader = Number(meta?.response?.headers.get('X-Total-Count'));
@@ -28,9 +28,9 @@ const postsApi = api.injectEndpoints({
         return {
           page: page,
           per_page: limit,
+          posts: response,
           total: totalCount,
           total_pages: totalPages,
-          posts: response,
         };
       },
     }),

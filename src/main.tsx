@@ -1,10 +1,8 @@
+import { setupStore } from '@store/store.ts';
+import 'normalize.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-
-import 'normalize.css';
-
-import { setupStore } from '@store/store.ts';
 
 import App from './App.tsx';
 

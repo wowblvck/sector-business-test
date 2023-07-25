@@ -1,50 +1,51 @@
+import type { ColumnsType } from 'antd/es/table';
+
 import Posts from '@interfaces/Posts.interface';
 import { Empty, Table } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
 
 const columns: ColumnsType<Posts> = [
   {
-    title: 'ID',
     dataIndex: 'id',
-    width: 25,
     sorter: (a, b) => a.id - b.id,
+    title: 'ID',
+    width: 25,
   },
   {
-    title: 'Заголовок',
     dataIndex: 'title',
-    width: 200,
     sorter: (a, b) => a.title.length - b.title.length,
+    title: 'Заголовок',
+    width: 200,
   },
   {
-    title: 'Описание',
     dataIndex: 'body',
     sorter: (a, b) => a.body.length - b.body.length,
+    title: 'Описание',
   },
 ];
 
 type PostsListsProps = {
-  posts: Posts[];
   loading: boolean;
+  posts: Posts[];
 };
 
-const PostsList: React.FC<PostsListsProps> = ({ posts, loading }) => {
+const PostsList: React.FC<PostsListsProps> = ({ loading, posts }) => {
   return (
     <Table
-      loading={loading}
-      dataSource={posts}
-      columns={columns}
-      bordered
-      rowKey={(record: Posts) => record.id}
-      pagination={false}
-      style={{ width: '100%' }}
       locale={{
+        cancelSort: 'Отменить сортировку',
         emptyText: (
           <Empty description="Нет загруженных постов" image={Empty.PRESENTED_IMAGE_SIMPLE} />
         ),
         triggerAsc: 'Сортировка по возрастанию',
         triggerDesc: 'Сортировка по убыванию',
-        cancelSort: 'Отменить сортировку',
       }}
+      bordered
+      columns={columns}
+      dataSource={posts}
+      loading={loading}
+      pagination={false}
+      rowKey={(record: Posts) => record.id}
+      style={{ width: '100%' }}
     />
   );
 };

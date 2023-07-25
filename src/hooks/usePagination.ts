@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 type UsePaginationReturn = {
+  changePage: (page: number) => void;
   pageNumber: number;
   pageSize: number;
-  changePage: (page: number) => void;
 };
 
 type UsePaginationProps = {
@@ -22,9 +22,9 @@ const usePagination: UsePagination = ({ defaultPageNumber, defaultPageSize }) =>
   };
 
   return {
+    changePage: onChangePage,
     pageNumber,
     pageSize,
-    changePage: onChangePage,
   };
 };
 
