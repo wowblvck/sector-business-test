@@ -1,10 +1,10 @@
+import { API } from '@api/api';
 import PostsPage from '@pages/PostsPage';
-import { renderWithProviders } from '@utils/test-utils';
-import { MemoryRouter } from 'react-router-dom';
 import { act, fireEvent, waitFor } from '@testing-library/react';
 import { mswServer } from '@tests/setup';
+import { renderWithProviders } from '@utils/test-utils';
 import { rest } from 'msw';
-import { API } from '@api/api';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('PostsPage', () => {
   test('renders the search bar and posts list when total pages < 1', async () => {
@@ -45,8 +45,8 @@ describe('PostsPage', () => {
 
   test('filters posts based on the search value', async () => {
     const initialPosts = [
-      { id: 1, userId: 2, title: 'Test Post 1', body: 'This is the body of test post 1.' },
-      { id: 2, userId: 2, title: 'Test Post 2', body: 'This is the body of test post 2.' },
+      { body: 'This is the body of test post 1.', id: 1, title: 'Test Post 1', userId: 2 },
+      { body: 'This is the body of test post 2.', id: 2, title: 'Test Post 2', userId: 2 },
     ];
 
     mswServer.use(
@@ -55,7 +55,7 @@ describe('PostsPage', () => {
       })
     );
 
-    const { getByTestId, getByText, getByPlaceholderText, getByRole, queryByText } =
+    const { getByPlaceholderText, getByRole, getByTestId, getByText, queryByText } =
       renderWithProviders(
         <MemoryRouter>
           <PostsPage />

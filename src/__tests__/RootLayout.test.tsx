@@ -1,6 +1,6 @@
-import { vi } from 'vitest';
-import { render } from '@testing-library/react';
 import RootLayout from '@layouts/RootLayout';
+import { render } from '@testing-library/react';
+import { vi } from 'vitest';
 
 describe('RootLayout', () => {
   test('render the layout component', () => {
@@ -14,10 +14,10 @@ describe('RootLayout', () => {
   });
   test('should render the Content component with correct padding > xs breakpoint', () => {
     window.matchMedia = vi.fn().mockImplementation((query) => ({
+      addListener: vi.fn(),
       matches: query !== '(min-width: 240px) and (max-width: 767px)',
       media: '',
       onchange: null,
-      addListener: vi.fn(),
       removeListener: vi.fn(),
     }));
     const { getByTestId } = render(<RootLayout />);

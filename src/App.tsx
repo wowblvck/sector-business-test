@@ -1,14 +1,13 @@
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import RootLayout from '@layouts/RootLayout';
 import PostsPage from '@pages/PostsPage';
+import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 const router = createBrowserRouter([
   {
-    path: '/',
     Component: RootLayout,
     children: [
       {
-        element: <Navigate to="/posts" replace />,
+        element: <Navigate replace to="/posts" />,
         index: true,
       },
       {
@@ -16,6 +15,7 @@ const router = createBrowserRouter([
         path: '/posts',
       },
     ],
+    path: '/',
   },
 ]);
 

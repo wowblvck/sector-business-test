@@ -1,6 +1,6 @@
-import { render, fireEvent } from '@testing-library/react';
-import { vi } from 'vitest';
 import Paginator from '@components/Paginator';
+import { fireEvent, render } from '@testing-library/react';
+import { vi } from 'vitest';
 
 const mockOnChangePage = vi.fn();
 
@@ -11,10 +11,10 @@ const currentPage = 3;
 test('Paginator renders correctly', () => {
   const { getByText } = render(
     <Paginator
-      totalItems={totalItems}
-      pageSize={pageSize}
       currentPage={currentPage}
       onChangePage={mockOnChangePage}
+      pageSize={pageSize}
+      totalItems={totalItems}
     />
   );
 
@@ -28,10 +28,10 @@ test('Paginator renders correctly', () => {
 test('Clicking on "Назад" link calls onChangePage with the correct page number', () => {
   const { getByText } = render(
     <Paginator
-      totalItems={totalItems}
-      pageSize={pageSize}
       currentPage={currentPage}
       onChangePage={mockOnChangePage}
+      pageSize={pageSize}
+      totalItems={totalItems}
     />
   );
 
@@ -44,10 +44,10 @@ test('Clicking on "Назад" link calls onChangePage with the correct page num
 test('Clicking on "Вперед" link calls onChangePage with the correct page number', () => {
   const { getByText } = render(
     <Paginator
-      totalItems={totalItems}
-      pageSize={pageSize}
       currentPage={currentPage}
       onChangePage={mockOnChangePage}
+      pageSize={pageSize}
+      totalItems={totalItems}
     />
   );
 

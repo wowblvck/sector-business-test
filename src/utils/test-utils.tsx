@@ -1,13 +1,13 @@
-import React, { PropsWithChildren } from 'react';
-import { render } from '@testing-library/react';
-import type { RenderOptions } from '@testing-library/react';
-import { configureStore } from '@reduxjs/toolkit';
 import type { PreloadedState } from '@reduxjs/toolkit';
-import { Provider } from 'react-redux';
-
 import type { AppStore, RootState } from '@store/store';
-import postsReducer from '@reducers/posts.reducer';
+import type { RenderOptions } from '@testing-library/react';
+
 import { api } from '@api/api';
+import postsReducer from '@reducers/posts.reducer';
+import { configureStore } from '@reduxjs/toolkit';
+import { render } from '@testing-library/react';
+import React, { PropsWithChildren } from 'react';
+import { Provider } from 'react-redux';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>;
@@ -19,9 +19,9 @@ export function renderWithProviders(
   {
     preloadedState = {},
     store = configureStore({
-      reducer: { postsReducer: postsReducer, [api.reducerPath]: api.reducer },
-      preloadedState,
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+      preloadedState,
+      reducer: { [api.reducerPath]: api.reducer, postsReducer: postsReducer },
     }),
     ...renderOptions
   }: ExtendedRenderOptions = {}

@@ -1,17 +1,17 @@
-import { PreloadedState, combineReducers, configureStore } from '@reduxjs/toolkit';
 import { api } from '@api/api';
 import postsReducer from '@reducers/posts.reducer';
+import { PreloadedState, combineReducers, configureStore } from '@reduxjs/toolkit';
 
 const rootReducer = combineReducers({
-  postsReducer: postsReducer,
   [api.reducerPath]: api.reducer,
+  postsReducer: postsReducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
   return configureStore({
-    reducer: rootReducer,
-    preloadedState,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+    preloadedState,
+    reducer: rootReducer,
   });
 };
 

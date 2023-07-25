@@ -1,11 +1,12 @@
-import { Pagination } from 'antd';
 import type { PaginationProps } from 'antd';
 
+import { Pagination } from 'antd';
+
 type PaginatorProps = {
-  totalItems: number;
-  pageSize: number;
   currentPage: number;
   onChangePage: (page: number) => void;
+  pageSize: number;
+  totalItems: number;
 };
 
 const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
@@ -19,10 +20,10 @@ const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => 
 };
 
 const Paginator: React.FC<PaginatorProps> = ({
-  totalItems,
-  pageSize,
   currentPage,
   onChangePage,
+  pageSize,
+  totalItems,
 }) => {
   const onChange: PaginationProps['onChange'] = (page) => {
     onChangePage(page);
@@ -30,13 +31,13 @@ const Paginator: React.FC<PaginatorProps> = ({
 
   return (
     <Pagination
-      total={totalItems}
-      itemRender={itemRender}
-      showSizeChanger={false}
-      pageSize={pageSize}
       current={currentPage}
+      itemRender={itemRender}
       onChange={onChange}
+      pageSize={pageSize}
+      showSizeChanger={false}
       style={{ textAlign: 'center' }}
+      total={totalItems}
     />
   );
 };

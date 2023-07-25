@@ -5,8 +5,8 @@ const initialState = {
 };
 
 const postsSlice = createSlice({
-  name: 'posts',
   initialState,
+  name: 'posts',
   reducers: {
     setSearchValue(state, { payload }: PayloadAction<string>) {
       state.searchValue = payload;

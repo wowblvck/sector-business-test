@@ -1,5 +1,5 @@
-import { renderHook, act } from '@testing-library/react';
 import usePagination from '@hooks/usePagination';
+import { act, renderHook } from '@testing-library/react';
 
 describe('usePagination', () => {
   test('should return initial pagination state', () => {

@@ -1,28 +1,28 @@
-import { Col, Row, Space, notification } from 'antd';
-import { useSearchParams } from 'react-router-dom';
 import { useGetPostsListQuery } from '@api/endpoints/postsApi';
+import Paginator from '@components/Paginator';
 import PostsList from '@components/PostsList';
 import SearchBar from '@components/SearchBar';
-import Paginator from '@components/Paginator';
+import { DEFAULT_LIMIT_PER_PAGE, DEFAULT_PAGE_NUMBER } from '@constants/pagination';
 import usePagination from '@hooks/usePagination';
 import { useAppSelector } from '@store/hooks';
+import { Col, Row, Space, notification } from 'antd';
 import { useEffect } from 'react';
-import { DEFAULT_LIMIT_PER_PAGE, DEFAULT_PAGE_NUMBER } from '@constants/pagination';
+import { useSearchParams } from 'react-router-dom';
 
 const PostsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams({
-    page: DEFAULT_PAGE_NUMBER,
     limit: DEFAULT_LIMIT_PER_PAGE,
+    page: DEFAULT_PAGE_NUMBER,
   });
 
-  const { pageNumber, pageSize, changePage } = usePagination({
+  const { changePage, pageNumber, pageSize } = usePagination({
     defaultPageNumber: Number(searchParams.get('page')),
     defaultPageSize: Number(searchParams.get('limit')),
   });
 
   const searchValue = useAppSelector((state) => state.postsReducer.searchValue);
 
-  const { isLoading, isError, data } = useGetPostsListQuery({ page: pageNumber, limit: pageSize });
+  const { data, isError, isLoading } = useGetPostsListQuery({ limit: pageSize, page: pageNumber });
 
   const filteredPosts =
     !isLoading && data
@@ -36,25 +36,25 @@ const PostsPage: React.FC = () => {
   useEffect(() => {
     if (isError)
       notification.error({
+        duration: 3,
         message: 'Ошибка загрузки постов. Повторите попытку позднее!',
         placement: 'bottomRight',
-        duration: 3,
       });
   }, [isError]);
 
   useEffect(() => {
     setSearchParams({
-      page: pageNumber.toString(),
       limit: pageSize.toString(),
+      page: pageNumber.toString(),
     });
   }, [pageNumber, pageSize]);
 
   return (
     <Space
-      direction="vertical"
-      style={{ width: '1077px' }}
-      size="large"
       data-testid="post-page-content"
+      direction="vertical"
+      size="large"
+      style={{ width: '1077px' }}
     >
       <Row>
         <Col md={12} sm={24} span={12} xs={24}>
@@ -63,17 +63,17 @@ const PostsPage: React.FC = () => {
       </Row>
       <Row>
         <Col span={24}>
-          <PostsList posts={filteredPosts} loading={isLoading} />
+          <PostsList loading={isLoading} posts={filteredPosts} />
         </Col>
       </Row>
       {!isLoading && data && !!data.posts.length && (
-        <Row justify="center" data-testid="paginator">
+        <Row data-testid="paginator" justify="center">
           <Col>
             <Paginator
-              totalItems={data.total}
               currentPage={data.page}
-              pageSize={data.per_page}
               onChangePage={changePage}
+              pageSize={data.per_page}
+              totalItems={data.total}
             />
           </Col>
         </Row>
