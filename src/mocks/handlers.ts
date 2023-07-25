@@ -2,7 +2,7 @@ import { API } from '@api/api';
 import { rest } from 'msw';
 
 const handlers = [
-  rest.get(`${API}/posts`, (_req, res, ctx) => {
+  rest.get(`${API}/posts?&_page=1&_limit=10`, (_req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json([
